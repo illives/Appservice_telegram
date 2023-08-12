@@ -18,7 +18,7 @@ def receive_json_file():
 
         if fone_number and message:
             send_telegram_message(fone_number, message)
-            return 'Message has been sent to telegram', 200
+            return 'Message has been sent to telegram.', 200
         else:
             return 'Incomplete Json Data.', 400
     except Exception as error:
@@ -28,8 +28,13 @@ def receive_json_file():
 def is_valid_key_token(key_token:str) -> bool:
     return key_token == VALID_KEY
 
-def send_telegram_message(fone_number, message):
-    telegram_url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text=Mensagem para {fone_number}: {message}'
+def send_telegram_message(fone_number:str, message:str):
+    telegram_url = TELEGRAM_URL.format(
+                                    TELEGRAM_TOKEN = TELEGRAM_TOKEN,
+                                    TELEGRAM_CHAT_ID = TELEGRAM_CHAT_ID,
+                                    fone_number = fone_number,
+                                    message = message
+                                        )
     response = requests.get(telegram_url)
     response.raise_for_status()
 
