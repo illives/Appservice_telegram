@@ -2,26 +2,31 @@ import json
 import requests
 import logging
 from flask import Flask, request
+from constant import *
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN = ""
-TELEGRAM_CHAT_ID = ""
 
 @app.route('/mesage_request', methods=['POST'])
 def receive_json_file():
     try:
         data = request.json
+        if not is_valid_key_token(data.get("token")):
+            return "Invalid key Token.", 403
         fone_number = data.get('fone_number')
         message = data.get('message')
 
         if fone_number and message:
             send_telegram_message(fone_number, message)
+            return 'Message has been sent to telegram', 200
         else:
             return 'Incomplete Json Data.', 400
     except Exception as error:
         logging.error(str(error))
         return 'Error while processing Json', 500
+
+def is_valid_key_token(key_token:str) -> bool:
+    return key_token == VALID_KEY
 
 def send_telegram_message(fone_number, message):
     pass
