@@ -4,8 +4,8 @@ import logging
 from flask import Flask, request
 from constant import *
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 @app.route('/mesage_request', methods=['POST'])
 def receive_json_file():
@@ -29,7 +29,9 @@ def is_valid_key_token(key_token:str) -> bool:
     return key_token == VALID_KEY
 
 def send_telegram_message(fone_number, message):
-    pass
+    telegram_url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text=Mensagem para {fone_number}: {message}'
+    response = requests.get(telegram_url)
+    response.raise_for_status()
 
 if __name__=='__main__':
     app.run()
