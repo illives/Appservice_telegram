@@ -1,0 +1,5 @@
+*.msi
+*.hcl
+*.tfstate
+*.backup
+.terraform/
