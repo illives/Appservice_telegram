@@ -39,4 +39,4 @@ def send_telegram_message(fone_number:str, message:str):
     response.raise_for_status()
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=5000)
